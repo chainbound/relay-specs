@@ -30,6 +30,8 @@ paths:
     $ref: "./apis/relay/builder/validators.yaml"
   /relay/v1/builder/blocks:
     $ref: "./apis/relay/builder/blocks.yaml"
+  /relay/v1/builder/blocks_with_proofs:
+    $ref: "./apis/relay/builder/blocks_with_proofs.yaml"
   /relay/v1/data/bidtraces/proposer_payload_delivered:
     $ref: "./apis/relay/data/proposer_payload_delivered.yaml"
   /relay/v1/data/bidtraces/builder_blocks_received:
@@ -55,6 +57,8 @@ components:
       $ref: "./types/capella/requests.yaml#/Capella/SubmitBlockRequest"
     Deneb.SubmitBlockRequest:
       $ref: "./types/deneb/requests.yaml#/Deneb/SubmitBlockRequest"
+    Deneb.SubmitBlockRequestWithProofs:
+      $ref: "./types/deneb/proof_requests.yaml#/Deneb/SubmitBlockRequestWithProofs"
     ValidatorsResponse:
       $ref: "./types/responses.yaml#/ValidatorsResponse"
     DeliveredPayloadsResponse:
@@ -73,3 +77,5 @@ components:
       $ref: "./examples/capella/submit_block_request.json"
     Deneb.SubmitBlockRequest:
       $ref: "./examples/deneb/submit_block_request.json"
+    Deneb.SubmitBlockWithProofsRequest:
+      $ref: "./examples/deneb/submit_block_with_proofs_request.json"
