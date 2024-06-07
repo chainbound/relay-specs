@@ -1,0 +1,41 @@
+get:
+  operationId: "getConstraints"
+  summary: Get constraints stream from the relay.
+  description: |
+    * This endpoint allows fetching a stream of constraints from the relay.
+    
+    * The response is a stream of signed constraints, including messages and signatures.
+    
+    * The `backfill` parameter can be used to opt into backfilling constraints.
+    
+    * The headers `Content-Type` should be `text/event-stream` and `Connection` should be `keep-alive`.
+  tags:
+    - Builder
+  parameters:
+    - name: backfill
+      in: query
+      required: false
+      description: If set to true, opt into backfilling constraints.
+      schema:
+        type: boolean
+  headers:
+    Content-Type:
+      schema:
+        type: string
+        example: "text/event-stream"
+    Connection:
+      schema:
+        type: string
+        example: "keep-alive"
+  requestBody:
+    description: Empty request body.
+    required: false
+  responses:
+    "200":
+      description: Stream of signed constraints.
+      content:
+        text/event-stream:
+          schema:
+            $ref: "../../../relay-oapi.yaml#/components/schemas/Deneb.SignedConstraints"
+    "500":
+      $ref: "../../../relay-oapi.yaml#/components/responses/InternalError"

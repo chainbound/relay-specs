@@ -1,0 +1,27 @@
+Deneb:
+  SubmitBlockWithProofsRequest:
+    allOf:
+      - $ref: './requests.yaml#/Deneb/SubmitBlockRequest'
+      - type: object
+        properties:
+          execution_payload:
+            $ref: "../../beacon-apis/types/bellatrix/execution_payload.yaml#/Bellatrix/ExecutionPayload"
+
+  InclusionProof:
+    type: object
+    properties:
+      transaction_hashes:
+        type: array
+        items:
+          $ref: "../../beacon-apis/types/primitive.yaml#/Bytes32"
+        maxItems: 256
+      generalized_indexes:
+        type: array
+        items:
+          $ref: "../../beacon-apis/types/primitive.yaml#/Uint64"
+        maxItems: 256
+      merkle_hashes:
+        type: array
+        items:
+          type: array
+        maxItems: 256

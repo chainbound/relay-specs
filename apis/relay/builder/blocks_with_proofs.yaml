@@ -1,0 +1,56 @@
+post:
+  operationId: "submitBlockWithProofs"
+  summary: Submit a new block with inclusion proofs to the relay.
+  description: |
+    * This endpoint allows submitting blocks with inclusion proofs to the relay.
+    
+    * Blocks can be submitted in JSON or SSZ format, optionally GZIP encoded.
+    
+    * For JSON, the content type should be `application/json`. For SSZ, the content type should be `application/octet-stream`.
+    
+    * To enable GZIP compression, the HTTP content encoding should be `gzip`. Compression is optional.
+    
+    * The relay will verify the block's properties and the proposer payment in the transaction from builder to proposer `fee_recipient`.
+    
+    * The builder signature is over the SSZ encoded `message`.
+    
+    * The `message`, excluding transactions, will be made public via the data API, allowing verification of the builder signature.
+    
+    * Any new submission by a builder will overwrite a previous one by the same `builder_pubkey`, even if it is less profitable.
+  tags:
+    - Builder
+  parameters:
+    - name: cancellations
+      in: query
+      required: false
+      description: If set to 1, opt into bid cancellations.
+      schema:
+        $ref: "../../../relay-oapi.yaml#/components/schemas/Uint64"
+  requestBody:
+    description: A signed bid with an execution payload and inclusion proofs.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../../relay-oapi.yaml#/components/schemas/Deneb.SubmitBlockWithProofsRequest"
+        examples:
+          deneb:
+            $ref: "../../../relay-oapi.yaml#/components/examples/Deneb.SubmitBlockWithProofsRequest"
+      application/octet-stream:
+        schema:
+          description: "SSZ serialized request. Use content type header to indicate that SSZ data is contained in the request body."
+  responses:
+    "200":
+      description: Success response.
+    "400":
+      description: Error response.
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../../relay-oapi.yaml#/components/schemas/ErrorMessage"
+              - example:
+                  code: 400
+                  message: "payload for this slot was already delivered"
+    "500":
+      $ref: "../../../relay-oapi.yaml#/components/responses/InternalError"
