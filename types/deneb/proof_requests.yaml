@@ -1,5 +1,5 @@
 Deneb:
-  SubmitBlockRequestWithProofs:
+  SubmitBlockWithProofsRequest:
     allOf:
       - $ref: './requests.yaml#/Deneb/SubmitBlockRequest'
       - type: object
@@ -24,6 +24,4 @@ Deneb:
         type: array
         items:
           type: array
-          items:
-            $ref: "../../beacon-apis/types/primitive.yaml#/Bytes"
         maxItems: 256
